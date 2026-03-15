@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 780" font-family="'Segoe UI', system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#06b6d4"/>
+      <stop offset="100%" style="stop-color:#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7c3aed"/>
+      <stop offset="100%" style="stop-color:#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ea580c"/>
+      <stop offset="100%" style="stop-color:#f97316"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#059669"/>
+      <stop offset="100%" style="stop-color:#34d399"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#d97706"/>
+      <stop offset="100%" style="stop-color:#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="pink" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#db2777"/>
+      <stop offset="100%" style="stop-color:#f472b6"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowCyan" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#22d3ee"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34d399"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f97316"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a78bfa"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="780" fill="url(#bg)" rx="12"/>
+
+  <!-- Title -->
+  <text x="500" y="38" text-anchor="middle" fill="#f1f5f9" font-size="22" font-weight="700" filter="url(#glow)">SwitchCost Architecture</text>
+  <text x="500" y="58" text-anchor="middle" fill="#94a3b8" font-size="12">Migration Engine: Proprietary to Open-Source Models</text>
+
+  <!-- STEP 1: Task Input -->
+  <rect x="380" y="78" width="240" height="44" rx="8" fill="none" stroke="url(#cyan)" stroke-width="2"/>
+  <text x="500" y="96" text-anchor="middle" fill="#22d3ee" font-size="13" font-weight="600">Agentic Task Input</text>
+  <text x="500" y="112" text-anchor="middle" fill="#94a3b8" font-size="10">React Dashboard (port 5173)</text>
+
+  <line x1="500" y1="122" x2="500" y2="148" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowCyan)"/>
+
+  <!-- STEP 2: Task Decomposer -->
+  <rect x="350" y="150" width="300" height="48" rx="8" fill="#1e293b" stroke="url(#purple)" stroke-width="2"/>
+  <text x="500" y="170" text-anchor="middle" fill="#a78bfa" font-size="14" font-weight="600">Step 1: Task Decomposer</text>
+  <text x="500" y="188" text-anchor="middle" fill="#94a3b8" font-size="10">Breaks task into typed subtasks (classify, extract, summarize, reason, search, generate)</text>
+
+  <line x1="500" y1="198" x2="500" y2="224" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- STEP 3: Baseline Runner -->
+  <rect x="350" y="226" width="300" height="48" rx="8" fill="#1e293b" stroke="url(#orange)" stroke-width="2"/>
+  <text x="500" y="246" text-anchor="middle" fill="#f97316" font-size="14" font-weight="600">Step 2: Baseline Runner</text>
+  <text x="500" y="264" text-anchor="middle" fill="#94a3b8" font-size="10">Runs all subtasks on expensive model (simulates GPT-4 class)</text>
+
+  <line x1="500" y1="274" x2="500" y2="300" stroke="#f97316" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <!-- STEP 4: Replay Engine -->
+  <rect x="350" y="302" width="300" height="48" rx="8" fill="#1e293b" stroke="url(#cyan)" stroke-width="2"/>
+  <text x="500" y="322" text-anchor="middle" fill="#22d3ee" font-size="14" font-weight="600">Step 3: Replay Engine</text>
+  <text x="500" y="340" text-anchor="middle" fill="#94a3b8" font-size="10">Replays each subtask against ALL open model tiers</text>
+
+  <!-- Fan out to models -->
+  <line x1="400" y1="350" x2="145" y2="396" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrowCyan)"/>
+  <line x1="450" y1="350" x2="370" y2="396" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+  <line x1="550" y1="350" x2="630" y2="396" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="600" y1="350" x2="855" y2="396" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+
+  <!-- Model boxes -->
+  <rect x="50" y="398" width="190" height="56" rx="8" fill="#1e293b" stroke="url(#cyan)" stroke-width="1.5"/>
+  <text x="145" y="418" text-anchor="middle" fill="#22d3ee" font-size="11" font-weight="600">Llama 3.1 8B</text>
+  <text x="145" y="434" text-anchor="middle" fill="#94a3b8" font-size="9">Nebius / $0.03-0.09/1M tok</text>
+  <text x="145" y="448" text-anchor="middle" fill="#64748b" font-size="9">Classification, extraction</text>
+
+  <rect x="275" y="398" width="190" height="56" rx="8" fill="#1e293b" stroke="url(#purple)" stroke-width="1.5"/>
+  <text x="370" y="418" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="600">Qwen3 32B</text>
+  <text x="370" y="434" text-anchor="middle" fill="#94a3b8" font-size="9">Nebius / $0.14/1M tok</text>
+  <text x="370" y="448" text-anchor="middle" fill="#64748b" font-size="9">Summarization, analysis</text>
+
+  <rect x="535" y="398" width="190" height="56" rx="8" fill="#1e293b" stroke="url(#green)" stroke-width="1.5"/>
+  <text x="630" y="418" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">GPT-OSS 20B</text>
+  <text x="630" y="434" text-anchor="middle" fill="#94a3b8" font-size="9">OpenRouter / $0.05-0.20/1M tok</text>
+  <text x="630" y="448" text-anchor="middle" fill="#64748b" font-size="9">Tool use, structured output</text>
+
+  <rect x="760" y="398" width="190" height="56" rx="8" fill="#1e293b" stroke="url(#amber)" stroke-width="1.5"/>
+  <text x="855" y="418" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="600">Qwen3 30B MoE</text>
+  <text x="855" y="434" text-anchor="middle" fill="#94a3b8" font-size="9">OpenRouter / $0.10-0.30/1M tok</text>
+  <text x="855" y="448" text-anchor="middle" fill="#64748b" font-size="9">Instruction following</text>
+
+  <!-- Provider labels -->
+  <rect x="50" y="460" width="415" height="18" rx="4" fill="#0f172a" opacity="0.6"/>
+  <text x="257" y="473" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="500">Nebius Token Factory</text>
+  <rect x="535" y="460" width="415" height="18" rx="4" fill="#0f172a" opacity="0.6"/>
+  <text x="742" y="473" text-anchor="middle" fill="#4ade80" font-size="10" font-weight="500">OpenRouter</text>
+
+  <!-- Converge arrows -->
+  <line x1="145" y1="454" x2="420" y2="504" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowCyan)"/>
+  <line x1="370" y1="454" x2="460" y2="504" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowPurple)"/>
+  <line x1="630" y1="454" x2="540" y2="504" stroke="#34d399" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowGreen)"/>
+  <line x1="855" y1="454" x2="580" y2="504" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowAmber)"/>
+
+  <!-- STEP 5: Quality Comparator -->
+  <rect x="340" y="506" width="320" height="48" rx="8" fill="#1e293b" stroke="url(#pink)" stroke-width="2"/>
+  <text x="500" y="526" text-anchor="middle" fill="#f472b6" font-size="14" font-weight="600">Step 4: Quality Comparator</text>
+  <text x="500" y="544" text-anchor="middle" fill="#94a3b8" font-size="10">LLM-as-judge: scores each replay vs baseline (0-100)</text>
+
+  <line x1="500" y1="554" x2="500" y2="580" stroke="#f472b6" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- STEP 6: Migration Planner -->
+  <rect x="340" y="582" width="320" height="48" rx="8" fill="#1e293b" stroke="url(#green)" stroke-width="2"/>
+  <text x="500" y="602" text-anchor="middle" fill="#34d399" font-size="14" font-weight="600">Step 5: Migration Planner</text>
+  <text x="500" y="620" text-anchor="middle" fill="#94a3b8" font-size="10">Cheapest model per subtask type with quality >= 80%. MIGRATE or KEEP.</text>
+
+  <line x1="500" y1="630" x2="500" y2="656" stroke="#34d399" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- STEP 7: Savings Calculator -->
+  <rect x="340" y="658" width="320" height="48" rx="8" fill="#1e293b" stroke="url(#amber)" stroke-width="2"/>
+  <text x="500" y="678" text-anchor="middle" fill="#fbbf24" font-size="14" font-weight="600">Step 6: Savings Calculator</text>
+  <text x="500" y="696" text-anchor="middle" fill="#94a3b8" font-size="10">Projects monthly savings vs GPT-4o / Claude / Gemini at any volume</text>
+
+  <line x1="500" y1="706" x2="500" y2="732" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)"/>
+
+  <!-- Dashboard output -->
+  <rect x="340" y="734" width="320" height="32" rx="8" fill="none" stroke="url(#cyan)" stroke-width="2"/>
+  <text x="500" y="755" text-anchor="middle" fill="#22d3ee" font-size="13" font-weight="600">Dashboard: Migration Plan + Savings + Quality Matrix</text>
+
+  <!-- Tavily sidebar -->
+  <rect x="50" y="506" width="140" height="40" rx="8" fill="#1e293b" stroke="url(#pink)" stroke-width="1.5"/>
+  <text x="120" y="524" text-anchor="middle" fill="#f472b6" font-size="11" font-weight="600">Tavily Search</text>
+  <text x="120" y="538" text-anchor="middle" fill="#94a3b8" font-size="9">Web search subtasks</text>
+
+  <!-- Legend -->
+  <rect x="780" y="560" width="190" height="120" rx="8" fill="#0f172a" opacity="0.8" stroke="#334155" stroke-width="1"/>
+  <text x="875" y="580" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">Pipeline Steps</text>
+  <circle cx="798" cy="596" r="4" fill="#a78bfa"/><text x="808" y="600" fill="#94a3b8" font-size="10">Decompose</text>
+  <circle cx="798" cy="614" r="4" fill="#f97316"/><text x="808" y="618" fill="#94a3b8" font-size="10">Baseline</text>
+  <circle cx="798" cy="632" r="4" fill="#22d3ee"/><text x="808" y="636" fill="#94a3b8" font-size="10">Replay</text>
+  <circle cx="798" cy="650" r="4" fill="#f472b6"/><text x="808" y="654" fill="#94a3b8" font-size="10">Quality Judge</text>
+  <circle cx="798" cy="668" r="4" fill="#34d399"/><text x="808" y="672" fill="#94a3b8" font-size="10">Plan + Savings</text>
+</svg>
