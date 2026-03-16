@@ -1,11 +1,21 @@
-export default function TaskInput({ task, setTask, onRun, status, statusMessage }) {
+export default function TaskInput({ task, setTask, onRun, onDemo, status, statusMessage, showDemoButton }) {
   const isDisabled = status === 'running';
 
   return (
     <div className="gradient-border p-5">
-      <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">
-        Agentic Task
-      </label>
+      <div className="flex items-center justify-between mb-2">
+        <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          Agentic Task
+        </label>
+        {showDemoButton && (
+          <button
+            onClick={onDemo}
+            className="text-xs font-mono text-accent-cyan/70 hover:text-accent-cyan transition"
+          >
+            or run instant demo &rarr;
+          </button>
+        )}
+      </div>
       <textarea
         value={task}
         onChange={(e) => setTask(e.target.value)}
