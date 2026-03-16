@@ -63,24 +63,35 @@ export default function AudioPlayer({ onRequestDemo }) {
     }
   }, [currentSection, playing]);
 
-  const startTour = () => {
+  const startTour = async () => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.currentTime = 0;
-    audio.play();
-    setPlaying(true);
     setShowOverlay(false);
+    try {
+      audio.currentTime = 0;
+      await audio.play();
+      setPlaying(true);
+    } catch (err) {
+      console.error('Audio play failed:', err);
+      // Still dismiss overlay, show the player so user can retry
+      setPlaying(false);
+    }
   };
 
-  const toggle = () => {
+  const toggle = async () => {
     const audio = audioRef.current;
     if (!audio) return;
     if (playing) {
       audio.pause();
+      setPlaying(false);
     } else {
-      audio.play();
+      try {
+        await audio.play();
+        setPlaying(true);
+      } catch (err) {
+        console.error('Audio play failed:', err);
+      }
     }
-    setPlaying(!playing);
   };
 
   const dismiss = () => {
@@ -110,12 +121,12 @@ export default function AudioPlayer({ onRequestDemo }) {
 
   return (
     <>
-      <audio ref={audioRef} src="/voiceover.mp3" preload="metadata" />
+      <audio ref={audioRef} src="/voiceover.mp3" preload="auto" />
 
       {/* Welcome overlay - shows on first load */}
       {showOverlay && !dismissed && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-surface-900/90 backdrop-blur-sm animate-fade-in">
-          <div className="gradient-border p-8 max-w-md mx-4 text-center glow-cyan">
+          <div className="relative z-[51] bg-surface-800 border border-surface-600 rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl shadow-accent-cyan/10">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-accent-cyan/10 border border-accent-cyan/30 flex items-center justify-center">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent-cyan">
                 <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" />
@@ -125,16 +136,16 @@ export default function AudioPlayer({ onRequestDemo }) {
             <p className="text-sm text-gray-400 mb-6">
               Take a guided audio tour of the platform — learn how we help AI teams cut inference costs by 10-100x using open-source models.
             </p>
-            <div className="flex flex-col gap-2">
+            <div className="relative z-[52] flex flex-col gap-2">
               <button
                 onClick={startTour}
-                className="w-full px-6 py-3 text-sm font-bold rounded-lg bg-accent-cyan text-surface-900 hover:bg-accent-cyan/90 transition shadow-lg shadow-accent-cyan/20"
+                className="relative z-[53] w-full px-6 py-3 text-sm font-bold rounded-lg bg-accent-cyan text-surface-900 hover:bg-accent-cyan/90 transition shadow-lg shadow-accent-cyan/20 cursor-pointer"
               >
                 Start Guided Tour
               </button>
               <button
                 onClick={dismiss}
-                className="w-full px-6 py-2.5 text-sm rounded-lg text-gray-500 hover:text-white transition"
+                className="relative z-[53] w-full px-6 py-2.5 text-sm rounded-lg text-gray-500 hover:text-white transition cursor-pointer"
               >
                 Skip, I'll explore on my own
               </button>
