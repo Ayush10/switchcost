@@ -7,6 +7,9 @@ import CostChart from './components/CostChart';
 import StepTimeline from './components/StepTimeline';
 import Architecture from './components/Architecture';
 import AudioPlayer from './components/AudioPlayer';
+import QualityReport from './components/QualityReport';
+import FutureTaskCoverage from './components/FutureTaskCoverage';
+import RequiredTooling from './components/RequiredTooling';
 import { DEMO_ANALYSIS, DEMO_TASK, calculateDemoSavings } from './data/demo';
 import {
   startAnalysis, getAnalysis, calculateSavings, getDemoTask,
@@ -125,15 +128,26 @@ function App() {
   };
 
   const handleRunDemo = () => {
-    setIsDemo(true);
     setTask(DEMO_TASK);
-    setStatus('done');
-    setStatusMessage('Demo analysis complete');
-    setAnalysis(DEMO_ANALYSIS);
-    setSavings(calculateDemoSavings(dailyCalls, proprietaryModel));
+    // Simulate the Analyze Migration flow with demo data
+    setIsDemo(true);
+    setStatus('running');
+    setStatusMessage('Decomposing task into subtasks...');
+    setAnalysis(null);
+    setSavings(null);
+    // Simulate analysis progress
+    setTimeout(() => setStatusMessage('Running baseline on DeepSeek R1...'), 800);
+    setTimeout(() => setStatusMessage('Replaying subtasks against open models...'), 1600);
+    setTimeout(() => setStatusMessage('Scoring quality with LLM-as-judge...'), 2400);
+    setTimeout(() => {
+      setStatusMessage('Analysis complete');
+      setStatus('done');
+      setAnalysis(DEMO_ANALYSIS);
+      setSavings(calculateDemoSavings(dailyCalls, proprietaryModel));
+    }, 3200);
     setTimeout(() => {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    }, 3400);
   };
 
   const showResults = analysis || status === 'running';
@@ -287,6 +301,21 @@ function App() {
                 <QualityMatrix matrix={analysis.quality_matrix} />
                 <CostChart plan={analysis.migration_plan} />
               </div>
+            )}
+
+            {/* Quality Assurance Report */}
+            {analysis?.migration_plan && (
+              <QualityReport plan={analysis.migration_plan} />
+            )}
+
+            {/* Future Task Coverage */}
+            {analysis?.migration_plan && (
+              <FutureTaskCoverage />
+            )}
+
+            {/* Required Tooling Stack */}
+            {analysis?.migration_plan && (
+              <RequiredTooling />
             )}
 
             {/* Replay Timeline */}
