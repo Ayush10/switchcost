@@ -142,7 +142,7 @@ function App() {
     <div className="min-h-screen bg-surface-900">
       {/* Hero Section */}
       {!showResults && (
-        <section className="relative overflow-hidden">
+        <section id="hero" className="relative overflow-hidden">
           <div className="hero-grid" />
           <div className="max-w-5xl mx-auto px-4 md:px-6 pt-16 pb-12 relative z-10">
             <div className="text-center">
@@ -201,7 +201,7 @@ function App() {
           <AudioPlayer />
 
           {/* How It Works */}
-          <div>
+          <div id="how-it-works">
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider text-center mb-8">
               How It Works
             </h2>
@@ -219,7 +219,9 @@ function App() {
           </div>
 
           {/* Architecture */}
-          <Architecture />
+          <div id="architecture">
+            <Architecture />
+          </div>
         </section>
       )}
 

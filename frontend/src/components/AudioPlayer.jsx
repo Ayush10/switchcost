@@ -1,10 +1,25 @@
 import { useState, useRef, useEffect } from 'react';
 
-export default function AudioPlayer() {
+const TOUR_SECTIONS = [
+  { time: 0, label: 'Welcome', highlight: 'hero' },
+  { time: 8, label: 'The Problem', highlight: 'hero' },
+  { time: 18, label: 'How It Works', highlight: 'how-it-works' },
+  { time: 30, label: 'Sponsor: Nebius', highlight: 'architecture' },
+  { time: 43, label: 'Sponsor: OpenRouter', highlight: 'architecture' },
+  { time: 50, label: 'Quality Scoring', highlight: 'architecture' },
+  { time: 58, label: 'Sponsor: Tavily', highlight: 'architecture' },
+  { time: 63, label: 'Sponsor: Toloka', highlight: 'architecture' },
+  { time: 73, label: 'Try the Demo', highlight: 'try-it' },
+];
+
+export default function AudioPlayer({ onRequestDemo }) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [currentSection, setCurrentSection] = useState(0);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -13,8 +28,18 @@ export default function AudioPlayer() {
     const onTime = () => {
       setProgress(audio.currentTime);
       setDuration(audio.duration || 0);
+      // Update current section based on timestamp
+      for (let i = TOUR_SECTIONS.length - 1; i >= 0; i--) {
+        if (audio.currentTime >= TOUR_SECTIONS[i].time) {
+          setCurrentSection(i);
+          break;
+        }
+      }
     };
-    const onEnd = () => setPlaying(false);
+    const onEnd = () => {
+      setPlaying(false);
+      setShowOverlay(false);
+    };
 
     audio.addEventListener('timeupdate', onTime);
     audio.addEventListener('ended', onEnd);
@@ -26,6 +51,27 @@ export default function AudioPlayer() {
     };
   }, []);
 
+  // Auto-scroll to highlighted section
+  useEffect(() => {
+    if (!playing) return;
+    const section = TOUR_SECTIONS[currentSection];
+    if (section?.highlight) {
+      const el = document.getElementById(section.highlight);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [currentSection, playing]);
+
+  const startTour = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.currentTime = 0;
+    audio.play();
+    setPlaying(true);
+    setShowOverlay(false);
+  };
+
   const toggle = () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -35,6 +81,14 @@ export default function AudioPlayer() {
       audio.play();
     }
     setPlaying(!playing);
+  };
+
+  const dismiss = () => {
+    const audio = audioRef.current;
+    if (audio && playing) audio.pause();
+    setPlaying(false);
+    setShowOverlay(false);
+    setDismissed(true);
   };
 
   const seek = (e) => {
@@ -55,62 +109,103 @@ export default function AudioPlayer() {
   const pct = duration > 0 ? (progress / duration) * 100 : 0;
 
   return (
-    <div className="gradient-border p-4 glow-cyan">
+    <>
       <audio ref={audioRef} src="/voiceover.mp3" preload="metadata" />
 
-      <div className="flex items-center gap-4">
-        {/* Play/Pause */}
-        <button
-          onClick={toggle}
-          className={`audio-btn w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition ${
-            playing
-              ? 'bg-accent-cyan text-surface-900 playing'
-              : 'bg-surface-800 text-accent-cyan border border-accent-cyan/30 hover:bg-accent-cyan/10'
-          }`}
-        >
-          {playing ? (
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-              <rect x="2" y="1" width="4" height="12" rx="1" />
-              <rect x="8" y="1" width="4" height="12" rx="1" />
-            </svg>
-          ) : (
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-              <path d="M3 1.5v11l9-5.5z" />
-            </svg>
-          )}
-        </button>
-
-        {/* Info + Progress */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between mb-1.5">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-white">Project Walkthrough</span>
-              {playing && (
-                <span className="flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse" />
-                  <span className="text-[10px] text-accent-cyan font-mono">PLAYING</span>
-                </span>
-              )}
+      {/* Welcome overlay - shows on first load */}
+      {showOverlay && !dismissed && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-surface-900/90 backdrop-blur-sm animate-fade-in">
+          <div className="gradient-border p-8 max-w-md mx-4 text-center glow-cyan">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-accent-cyan/10 border border-accent-cyan/30 flex items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent-cyan">
+                <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" />
+              </svg>
             </div>
-            <span className="text-[10px] font-mono text-gray-600">
-              {fmt(progress)} / {fmt(duration)}
-            </span>
-          </div>
-
-          {/* Progress bar */}
-          <div
-            onClick={seek}
-            className="w-full h-1.5 bg-surface-700 rounded-full cursor-pointer group"
-          >
-            <div
-              className="h-full bg-accent-cyan rounded-full transition-all duration-100 relative"
-              style={{ width: `${pct}%` }}
-            >
-              <span className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-accent-cyan rounded-full opacity-0 group-hover:opacity-100 transition shadow-lg shadow-accent-cyan/30" />
+            <h2 className="text-xl font-bold text-white mb-2">Welcome to SwitchCost</h2>
+            <p className="text-sm text-gray-400 mb-6">
+              Take a guided audio tour of the platform — learn how we help AI teams cut inference costs by 10-100x using open-source models.
+            </p>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={startTour}
+                className="w-full px-6 py-3 text-sm font-bold rounded-lg bg-accent-cyan text-surface-900 hover:bg-accent-cyan/90 transition shadow-lg shadow-accent-cyan/20"
+              >
+                Start Guided Tour
+              </button>
+              <button
+                onClick={dismiss}
+                className="w-full px-6 py-2.5 text-sm rounded-lg text-gray-500 hover:text-white transition"
+              >
+                Skip, I'll explore on my own
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+
+      {/* Floating player bar - appears when playing or after dismissing overlay */}
+      {!showOverlay && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-full max-w-xl px-4">
+          <div className="bg-surface-800/95 backdrop-blur-md border border-surface-600 rounded-xl p-3 shadow-2xl">
+            <div className="flex items-center gap-3">
+              {/* Play/Pause */}
+              <button
+                onClick={toggle}
+                className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition ${
+                  playing
+                    ? 'bg-accent-cyan text-surface-900'
+                    : 'bg-surface-700 text-accent-cyan border border-accent-cyan/30 hover:bg-accent-cyan/10'
+                }`}
+              >
+                {playing ? (
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="currentColor">
+                    <rect x="2" y="1" width="4" height="12" rx="1" />
+                    <rect x="8" y="1" width="4" height="12" rx="1" />
+                  </svg>
+                ) : (
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="currentColor">
+                    <path d="M3 1.5v11l9-5.5z" />
+                  </svg>
+                )}
+              </button>
+
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-semibold text-white truncate">
+                      {playing ? TOUR_SECTIONS[currentSection]?.label || 'Playing...' : 'Project Walkthrough'}
+                    </span>
+                    {playing && (
+                      <span className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse" />
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[10px] font-mono text-gray-600 flex-shrink-0 ml-2">
+                    {fmt(progress)} / {fmt(duration)}
+                  </span>
+                </div>
+                <div onClick={seek} className="w-full h-1 bg-surface-700 rounded-full cursor-pointer group">
+                  <div
+                    className="h-full bg-accent-cyan rounded-full transition-all duration-100"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Close */}
+              <button
+                onClick={dismiss}
+                className="text-gray-600 hover:text-gray-400 transition flex-shrink-0"
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 3l8 8M11 3l-8 8" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -127,7 +127,7 @@ export const DEMO_ANALYSIS = {
         latency_ms: 1240,
         input_tokens: 320,
         output_tokens: 580,
-        output_preview: 'Classified companies into tiers: Tier 1 (hyperscale infrastructure): Nebius, CoreWeave. Tier 2 (inference optimization): Together AI, Fireworks AI. Tier 3 (GPU cloud): Lambda.',
+        output_preview: 'Classification complete. Tier 1 — Hyperscale Infrastructure (own silicon + data centers): Nebius (vertical stack: custom hardware → Token Factory inference platform), CoreWeave (GPU-native cloud, 100k+ NVIDIA GPUs across 28 data centers). Tier 2 — Inference Optimization (model-serving focus): Together AI (serverless endpoints, custom kernels, FlashAttention), Fireworks AI (function-calling optimized, sub-100ms latency). Tier 3 — GPU Cloud (IaaS play): Lambda (on-demand H100 clusters, dev-first UX). This classification informs which subtask routes to which research depth.',
       },
       {
         step_id: 2,
@@ -137,7 +137,7 @@ export const DEMO_ANALYSIS = {
         latency_ms: 890,
         input_tokens: 0,
         output_tokens: 0,
-        output_preview: 'Found 15 relevant sources across funding announcements, GPU availability reports, and pricing pages for all 5 companies.',
+        output_preview: '[Tavily Search] Found 15 high-relevance sources: (1) Nebius Q4 2024 investor deck — $1.5B Series A, Token Factory launch. (2) CoreWeave SEC S-1 filing — $12.7B total capital, IPO valuation $35B. (3) Lambda blog — Series C $800M at $4B valuation. (4) Together AI TechCrunch — $228.5M Series B, serverless inference. (5) Fireworks AI launch post — $220M raised, function-calling benchmarks. Plus 10 pricing pages and GPU comparison articles.',
       },
       {
         step_id: 3,
@@ -147,7 +147,7 @@ export const DEMO_ANALYSIS = {
         latency_ms: 2180,
         input_tokens: 1850,
         output_tokens: 920,
-        output_preview: 'Nebius: $1.5B Series A (2024), H100/H200 clusters. CoreWeave: $12.7B raised total, 100k+ GPUs. Lambda: $800M Series C, On-Demand cloud...',
+        output_preview: 'NEBIUS — Funding: $1.5B Series A (Dec 2024) led by Accel, NVIDIA participation. GPUs: H100/H200 clusters in Finland and Israel, custom liquid-cooled infrastructure. Pricing: Token Factory offers Llama 3.1 8B at $0.03/M, Qwen3 32B at $0.14/M, DeepSeek R1 at $0.80/M — consistently 5-15x below OpenAI equivalents. Moat: Vertical integration from hardware procurement to inference API. COREWEAVE — Funding: $12.7B total ($7.5B Series C, May 2025). GPUs: 100,000+ NVIDIA GPUs, 28 data centers. Revenue: $1.9B ARR.',
       },
       {
         step_id: 4,
@@ -157,7 +157,7 @@ export const DEMO_ANALYSIS = {
         latency_ms: 1950,
         input_tokens: 1720,
         output_tokens: 880,
-        output_preview: 'Together AI: $228.5M raised, serverless inference. Fireworks AI: $220M total, function-calling optimized. GPU offerings comparison extracted...',
+        output_preview: 'TOGETHER AI — Funding: $228.5M Series B (Mar 2025). Strategy: Serverless inference with custom kernels, FlashAttention integration, open-source model hosting. Pricing: Competitive per-token rates, free tier for experimentation. FIREWORKS AI — Funding: $220M total ($150M Series B). Strategy: Function-calling optimized inference, sub-100ms latency guarantee, enterprise SLAs. LAMBDA — Funding: $800M Series C ($4B valuation). Strategy: GPU cloud IaaS, 1-Click Clusters, developer-first UX. On-demand H100 at $2.49/hr.',
       },
       {
         step_id: 5,
@@ -167,7 +167,7 @@ export const DEMO_ANALYSIS = {
         latency_ms: 2450,
         input_tokens: 2100,
         output_tokens: 1100,
-        output_preview: 'Key findings: Infrastructure moat strongest at Nebius (vertical integration) and CoreWeave (GPU fleet scale). Inference optimization approaches differ...',
+        output_preview: 'KEY FINDINGS: (1) Infrastructure moat is strongest at Nebius — they own the full stack from GPU procurement and liquid-cooled data centers to the Token Factory inference API. This vertical integration allows pricing 5-15x below OpenAI. (2) CoreWeave leads on raw GPU capacity (100k+ GPUs) but is primarily an IaaS play without a model-serving layer. (3) Together AI and Fireworks AI compete on inference optimization but rent infrastructure, creating margin pressure. (4) Lambda occupies a niche as the "developer-friendly GPU cloud" but lacks differentiation at scale.',
       },
       {
         step_id: 6,
@@ -177,7 +177,7 @@ export const DEMO_ANALYSIS = {
         latency_ms: 3200,
         input_tokens: 2800,
         output_tokens: 1400,
-        output_preview: 'Competitive analysis: Nebius has strongest moat due to vertical stack (custom hardware + Token Factory platform). CoreWeave leads on raw GPU capacity...',
+        output_preview: 'COMPETITIVE ANALYSIS: Nebius presents the strongest competitive moat for three reasons: (1) Vertical integration — unlike competitors who rent GPU capacity, Nebius owns data centers with custom liquid cooling, giving them structural cost advantages that compound over time. (2) Token Factory — their inference platform serves models at 5-15x below OpenAI pricing while maintaining quality parity, creating a direct value proposition for cost-conscious AI teams. (3) Model diversity — hosting DeepSeek R1 (671B), Qwen3, and Llama 3.1 on the same platform gives customers a one-stop migration path. Risk factors: Geopolitical exposure (Israel/Finland operations), smaller GPU fleet vs CoreWeave.',
       },
       {
         step_id: 7,
@@ -187,7 +187,7 @@ export const DEMO_ANALYSIS = {
         latency_ms: 4100,
         input_tokens: 3200,
         output_tokens: 1800,
-        output_preview: 'INVESTMENT ANALYSIS: The AI infrastructure market is projected to reach $500B by 2030. Among the five companies analyzed, Nebius presents the strongest...',
+        output_preview: 'INVESTMENT ANALYSIS: AI INFRASTRUCTURE — PICKING THE WINNER\n\nThe AI infrastructure market is projected to reach $500B by 2030, driven by enterprise adoption of foundation models. Among the five companies analyzed, Nebius presents the strongest competitive moat and best risk-adjusted return potential.\n\nThesis: Nebius is building the "AWS of AI inference" — a vertically integrated stack from custom GPU data centers to the Token Factory inference platform. Their $1.5B Series A (with NVIDIA participation) validates the hardware-to-API strategy.\n\nKey advantage: While CoreWeave, Lambda, Together AI, and Fireworks all compete on some layer of the stack, only Nebius controls the full vertical. This enables Token Factory to price Llama 3.1 8B at $0.03/M tokens — roughly 80x cheaper than GPT-4o — while maintaining sustainable margins.\n\nRecommendation: STRONG BUY on Nebius at current valuation. The vertical integration moat will widen as model sizes grow and inference costs become the dominant AI expense.',
       },
     ],
   },
